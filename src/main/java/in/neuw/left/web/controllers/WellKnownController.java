@@ -24,14 +24,19 @@ public class WellKnownController {
     @Value("${data.public.jwks}")
     private String publicJWKS;
 
+    @Value("${app.base}")
+    private String appBasePath;
+
     @Autowired
     private ObjectMapper objectMapper;
 
+    // enabled CORs for the jwt.io - this enables verifying signature of the token online
+    // technically the openid-configuration is for the oidc based token, but never mind
     @CrossOrigin(origins = {"https://jwt.io"})
     @GetMapping("/openid-configuration")
     public Mono<JsonNode> getOpenIdConfig() {
         var map = new HashMap<>();
-        map.put("jwks_uri", "http://localhost:30011/.well-known/jwks");
+        map.put("jwks_uri", appBasePath+"/.well-known/jwks");
         return Mono.just(objectMapper.convertValue(map, JsonNode.class));
     }
 
