@@ -22,9 +22,11 @@ public class RightSideApiClient {
     @Value("${downstream.right.side.api}")
     private String rightSidePath;
 
-    public Mono<RightSideResponse> getRightSideResponse(final RightSideSignedRequest rightSideSignedRequest) {
+    public Mono<RightSideResponse> getRightSideResponse(final RightSideSignedRequest rightSideSignedRequest,
+                                                        final String correlationId) {
         return rightSideWebClient.post()
                 .uri(rightSidePath)
+                .header("x-correlation-id", correlationId)
                 .body(Mono.just(rightSideSignedRequest), RightSideSignedRequest.class)
                 .retrieve().bodyToMono(RightSideResponse.class);
     }

@@ -35,7 +35,7 @@ public class LeftService {
         String token = jwtUtil.generateJWS(rightSideAudience, "right-side-signed", correlationId);
         RightSideSignedRequest request = new RightSideSignedRequest();
         request.setData(token);
-        return rightSideApiClient.getRightSideResponse(request).map(r -> {
+        return rightSideApiClient.getRightSideResponse(request, correlationId).map(r -> {
             var response = new LeftResponse();
             var jwe = r.getData();
             try {
