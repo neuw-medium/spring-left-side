@@ -31,8 +31,8 @@ public class LeftService {
     @Autowired
     private ObjectMapper objectMapper;
 
-    public Mono<LeftResponse> getLeftSideData() throws JOSEException {
-        String token = jwtUtil.generateJWS(rightSideAudience, "right-side-signed");
+    public Mono<LeftResponse> getLeftSideData(final String correlationId) throws JOSEException {
+        String token = jwtUtil.generateJWS(rightSideAudience, "right-side-signed", correlationId);
         RightSideSignedRequest request = new RightSideSignedRequest();
         request.setData(token);
         return rightSideApiClient.getRightSideResponse(request).map(r -> {

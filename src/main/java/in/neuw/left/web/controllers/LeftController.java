@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
@@ -20,8 +21,9 @@ public class LeftController {
     private LeftService leftService;
 
     @GetMapping
-    public Mono<LeftResponse> getData() throws JOSEException {
-        return leftService.getLeftSideData();
+    public Mono<LeftResponse> getData(final ServerWebExchange exchange) throws JOSEException {
+        String correlationId = exchange.getAttribute("correlation-id");
+        return leftService.getLeftSideData(correlationId);
     }
 
 }

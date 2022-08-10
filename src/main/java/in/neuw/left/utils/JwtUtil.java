@@ -33,7 +33,8 @@ public class JwtUtil {
     private String issuer;
 
     public String generateJWS(final String audience,
-                              final String subject) throws JOSEException {
+                              final String subject,
+                              final String correlationId) throws JOSEException {
         Optional<JWK> optionalJWK = jwkSet.getKeys()
                 .stream()
                 .filter(k -> {
@@ -52,8 +53,8 @@ public class JwtUtil {
                 .issuer(issuer)
                 .audience(audience)
                 .subject(subject)
-                // the claim will be dynamic based on the case, you can set anything
-                .claim("id", UUID.randomUUID().toString())
+                // the claim will be dynamic based on the case, you can set anything, any object, any type (most of the times)
+                .claim("x-correlation-id", correlationId)
                 .expirationTime(Date.from(Instant.now().plusSeconds(120)))
                 .build();
 

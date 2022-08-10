@@ -2,6 +2,7 @@ package in.neuw.left.web.filters;
 
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebFilter;
@@ -19,6 +20,7 @@ import java.util.UUID;
  * @author Karanbir Singh on 08/09/2022
  */
 @Slf4j
+@Component
 public class RequestContextFilter implements WebFilter {
 
     @Override
