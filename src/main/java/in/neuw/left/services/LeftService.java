@@ -38,9 +38,10 @@ public class LeftService {
         return rightSideApiClient.getRightSideResponse(request, correlationId).map(r -> {
             var response = new LeftResponse();
             var jwe = r.getData();
+            System.out.println(jwe);
             try {
                 var map = jwtUtil.decryptToken(jwe);
-                response.setData(objectMapper.valueToTree(map));
+                response.setData(objectMapper.valueToTree(map.get("data")));
             } catch (ParseException | JOSEException e) {
                 throw new RuntimeException(e);
             }

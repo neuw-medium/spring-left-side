@@ -47,6 +47,7 @@ public class JwtUtil {
         var header = new JWSHeader.Builder(ES256)
                 .type(JOSEObjectType.JWT)
                 .keyID(key.getKeyID())
+                .customParam("issuer_name", "left-side")
                 .build();
 
         var payload = new JWTClaimsSet.Builder()
@@ -55,6 +56,7 @@ public class JwtUtil {
                 .subject(subject)
                 // the claim will be dynamic based on the case, you can set anything, any object, any type (most of the times)
                 .claim("x-correlation-id", correlationId)
+                .claim("issuer_name", "left-side")
                 .expirationTime(Date.from(Instant.now().plusSeconds(120)))
                 .build();
 
@@ -77,7 +79,7 @@ public class JwtUtil {
 
         var key = optionalJWK.get();
 
-        ECDHDecrypter decrypter = new ECDHDecrypter((ECPrivateKey) key);
+        ECDHDecrypter decrypter = new ECDHDecrypter((ECKey) key);
         jweObject.decrypt(decrypter);
 
         var payload = jweObject.getPayload();

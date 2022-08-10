@@ -17,8 +17,11 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/apis/v1/left")
 public class LeftController {
 
-    @Autowired
-    private LeftService leftService;
+    private final LeftService leftService;
+
+    public LeftController(LeftService leftService) {
+        this.leftService = leftService;
+    }
 
     @GetMapping
     public Mono<LeftResponse> getData(final ServerWebExchange exchange) throws JOSEException {
